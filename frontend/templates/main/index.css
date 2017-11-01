@@ -1,0 +1,96 @@
+#ps {
+    font-family: 'Coustard', serif;
+    font-size: 50px;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+#textos {
+    font-family: 'Cairo', sans-serif;
+    font-size: 20px;
+}
+
+#entrar {
+    background: #f15025;
+    color: white;
+    border: 1px solid #f15025;
+}
+
+#op-adm {
+    background: #f15025;
+    color: white;
+    border: 1px solid #f15025;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    width: 50%;
+    height: 40px;
+}
+
+#op-adm:hover {
+    box-shadow: 1px 1px 1px #f15025;
+    background-color: white;
+    color: #f15025;
+}
+
+#entrar:hover {
+    background-color: white;
+    color: #f15025;
+}
+
+#sair {
+    background: white;
+    color: #f15025;
+    border: 1px solid white;
+}
+
+#sair:hover {
+    background-color: #f15025;
+    color: white;
+}
+
+#adm-nome {
+    font-family: 'Cairo', sans-serif;
+    font-size: 20px;
+    border-bottom: 1px solid white;
+    width: 300px;
+    text-align: right;
+    margin-bottom: 0px;
+}
+
+#login {
+    font-family: 'Coustard', serif;
+    font-size: 30px;
+    color: #f15025;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#imge {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+#registrar {
+    color: #f15025;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+}
+
+#caixas {
+    background: white;
+    font-family: 'Cairo', sans-serif;
+    margin-top: 100px;
+    border: 1px solid white;
+}
+
+.b-superior {
+    color: white;
+    background: #f15025;
+    min-height: 160px;
+    width: 100%;
+}
+
+body {
+    background-color: #ecf0f1;
+}

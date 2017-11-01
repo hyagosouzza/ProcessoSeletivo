@@ -1,0 +1,38 @@
+<div class="b-superior">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 id="ps">Processo Seletivo</h1>
+      </div>
+      <div class="col-md-6 text-right">
+        <button id="sair" type="submit" class="btn">Sair</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h3 id="textos">Hoje, {{data | date: 'dd'}} de {{data | date: 'MMMM'}} de {{data | date: 'yyyy'}}</h3>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <p id="adm-nome">Administrador do Sistema<span class="glyphicon glyphicon-user"></span</p>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="row">
+  <div id="caixas" class="container col-md-4 text-center">
+    <div>
+      <h3 class="text-left" id="login">Opções do Administrador</h3>
+      <img class="text-left" id="imge" src="https://icon-icons.com/icons2/620/PNG/48/pencil-striped-symbol-for-interface-edit-buttons_icon-icons.com_56782.png"/>
+      <button id="op-adm">Cadastrar Vaga</button>
+    </div>
+    <div>
+      <img id="imge" class="text-left" src="https://icon-icons.com/icons2/1144/PNG/32/updatearrow_80971.png"/>
+      <button id="op-adm">Atualizar Vaga</button>
+    </div>
+    <div>
+      <img class="text-left" id="imge" src="https://icon-icons.com/icons2/1244/PNG/32/1492790846-9cancel_84247.png"/>
+      <button id="op-adm">Cancelar Vaga</button>
+    </div>
+  </div>
+</p>

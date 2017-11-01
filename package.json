@@ -1,0 +1,24 @@
+{
+  "name": "processo-seletivo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "processo",
+    "seletivo",
+    "ps"
+  ],
+  "author": "Hyago Vieira de Souza",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.12.5",
+    "nodemon": "^1.12.1",
+    "passport": "^0.4.0"
+  }
+}
