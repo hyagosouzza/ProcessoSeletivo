@@ -17,20 +17,20 @@
 </div>
 <p class="row">
   <div class="col-md-4"></div>
-  <form id="caixas" class="container col-md-4">
+  <form name="loginForm" id="caixas" class="container col-md-4">
     <div class="form-group text-left">
       <label id="login" for="exampleInputEmail1">Login</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Digite o Email">
+      <input ng-model="admin.email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Digite o Email" ng-required="true">
     </div>
     <div class="form-group">
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Entre com a Senha">
+      <input ng-model="admin.senha" type="password" class="form-control" id="exampleInputPassword1" placeholder="Entre com a Senha" ng-required="true">
     </div>
     <div class="row">
       <div class="col-md-6">
         <a id="registrar" href="">Registrar-se</a>
       </div>
       <div class="form-group text-right col-md-6">
-        <button id="entrar" type="submit" class="btn">ENTRAR</button>
+        <a href="http://localhost:8000/#!/admin"><button id="entrar" type="submit" class="btn" ng-disabled="loginForm.$invalid">ENTRAR</button></a>
       </div>
     </div>
   </form>
