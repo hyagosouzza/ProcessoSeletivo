@@ -1,6 +1,7 @@
 angular.module('meuApp')
     .controller('mainController', ['$scope', '$http', '$location', '$routeParams', function ($scope, $http, $location, $routeParams) {
         $scope.data = new Date();
+        $scope.vagas = [];
 
         var socket = io.connect('http://127.0.0.1:8000');
 
@@ -18,5 +19,11 @@ angular.module('meuApp')
             }).done(function (lista) {
                 socket.emit('getAdmins', JSON.stringify({"lista" : lista, "email" : email, "senha" : senha}));
             });
-        };
+        }
+
+        $scope.getVagas = function () {
+            $http.get('/api/vagas').then(function (response) {
+                $scope.vagas = response.data;
+            });
+        }
     }]);
