@@ -11,7 +11,7 @@ angular.module('meuApp')
             }, function (response) {
                 return alert(response.data);
             });
-        }
+        };
 
         $scope.getVagas = function () {
             $http.get('/api/vagas').then(function (response) {

@@ -63,13 +63,18 @@ app.post('/login',  function (request, response) {
 
     var isAdmin = false;
 
-    for (admin in admins) {
-      if (email == admin.email && senha == admin.senha) {
+    for (index in admins) {
+      console.log('checando ' + admins[index].email + ' ' + admins[index].senha) ;
+      console.log(email + ' ' + encrypt(senha));
+      if (email == admins[index].email && encrypt(senha) == admins[index].senha) {
           return response.send('#!/admin');
+          isAdmin = true;
       }
     }
 
-    return response.status(401).send('Usuário inexistente ou sem permissão');
+    if (!isAdmin) {
+        return response.status(401).send('Usuário inexistente ou sem permissão');
+    }
 });
 
 app.get('/api/vagas', function (request, response) {
@@ -79,8 +84,15 @@ app.get('/api/vagas', function (request, response) {
 isAuth = function(req, res, next) {
     res.status(401).send('Usuário sem permissão');
 };
+app.get('http://localhost:8000/!#/admin', isAuth, function (req, res) {
+    console.log('GET ADMIN');
+});
 
 app.get('/!#/admin', isAuth, function (req, res) {
+    console.log('GET ADMIN');
+});
+
+app.get('/admin', isAuth, function (req, res) {
     console.log('GET ADMIN');
 });
 
@@ -98,24 +110,6 @@ encrypt = function (string) {
 
 io.on('connection', function (client) {
     console.log("Client connected");
-
-    client.on('getAdmins', function (data) {
-        console.log("getAdmins");
-        obj = JSON.parse(data);
-
-        var index = 0;
-        var isAdmin = false;
-
-        for (index = 0; index < obj["lista"].length; index++) {
-            if (obj["email"] == obj["lista"][index].email && encrypt(obj["senha"]) == obj["lista"][index].senha) {
-                isAdmin = true;
-                io.sockets.emit("authenticated");
-            }
-        }
-        if (!isAdmin) {
-            io.sockets.emit("notAuthenticated");
-        }
-    })
 });
 
 var porta = process.env.PORT || 8000;
