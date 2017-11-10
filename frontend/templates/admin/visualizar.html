@@ -30,19 +30,29 @@
     </div>
   </div>
   <hr id="linha">
-  <table class="table table-striped" ng-repeat="vaga in vagas">
-    <tr>
-      <td>Nome da vaga:</td>
-      <td>{{vaga.nome}}</td>
-    </tr>
-    <tr id="tabela">
-      <td>Local:</td>
-      <td>{{vaga.senha}}</td>
-    </tr>
-    <tr>
-      <td>Empresa:</td>
-      <td>{{vaga.senha}}</td>
-    </tr>
-  </table>
+  <div class="container" ng-repeat="vaga in vagas">
+    <div class="row">
+      <div class="col-md-4">
+        <a href="" class="btn" id="vaga-nome">{{vaga.cargo}}</a>
+      </div>
+      <div class="col-md-4 text-right">
+        <a href="" class="btn" id="vaga-info"><img id="imge2" src="https://icon-icons.com/icons2/109/PNG/32/general_get_info_18446.png"/>Mais informações</a>
+      </div>
+    </div>
+    <table class="table table-striped" id="borda">
+      <tr id="tabela2">
+        <td id="tag">Salário:</td>
+        <td>{{vaga.salario}}</td>
+      </tr>
+      <tr id="tabela">
+        <td id="tag">Local:</td>
+        <td>{{vaga.local}}</td>
+      </tr>
+      <tr id="tabela2">
+        <td id="tag">Endereço:</td>
+        <td>{{vaga.end}}</td>
+      </tr>
+    </table>
+  </div>
 </div>
 </div>

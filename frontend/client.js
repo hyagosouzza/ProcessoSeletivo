@@ -4,8 +4,12 @@ angular.module('meuApp', ['ngRoute'])
             templateUrl: 'templates/main/index.html',
             controller: 'mainController'
         })
-        $routeProvider.when('/admin', {
+        .when('/admin', {
             templateUrl: 'templates/admin/admin.html',
             controller: 'mainController'
         })
+        .when('/admin/visualizar-vagas', {
+            templateUrl: 'templates/admin/visualizar.html',
+            controller: 'mainController'
+        });
     });

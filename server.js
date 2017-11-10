@@ -11,7 +11,7 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 
 // URL da conexão 
-var url = 'mongodb://hyagosouzza:hyago0123@ds243055.mlab.com:43055/processodb';
+var url = 'mongodb://hyagosouzza:hyago0123@ds161873.mlab.com:61873/selecao_de_vagas';
 
 // Usamos o método connect para se conectar com o servidor
 MongoClient.connect(url, function (err, db) {
@@ -23,7 +23,7 @@ MongoClient.connect(url, function (err, db) {
         console.log('Conexão com o banco de dados estabelecida com sucesso')
 
         // Obtem a coleção de documentos
-        var collection = db.collection('Admin')
+        var collection = db.collection('Vagas')
 
         //usando o comando find  para achar dados
         collection.find({}).toArray(function (err, resultado) {
@@ -41,7 +41,7 @@ MongoClient.connect(url, function (err, db) {
     }
 });
 
-server.get('/api/vagas', function (request, response) {
+app.get('/api/vagas', function (request, response) {
     response.json(dados);
 });
 
