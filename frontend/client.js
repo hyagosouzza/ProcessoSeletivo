@@ -11,5 +11,9 @@ angular.module('meuApp', ['ngRoute'])
         .when('/admin/visualizar-vagas', {
             templateUrl: 'templates/admin/visualizar.html',
             controller: 'mainController'
+        })
+        .when('/admin/cadastrar-vagas', {
+            templateUrl: 'templates/admin/cadastrarVaga.html',
+            controller: 'mainController'
         });
     });

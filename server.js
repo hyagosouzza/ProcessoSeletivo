@@ -1,4 +1,4 @@
-    var express = require('express');
+var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
@@ -39,7 +39,7 @@ MongoClient.connect(url, function (err, db) {
             }
 
         });
-        collection = db.collection('Admins');
+        collection = db.collection('cadastro');
         collection.find({}).toArray(function (err, resultado) {
             if (err) {
                 console.log(err);
@@ -79,6 +79,35 @@ app.post('/login',  function (request, response) {
 
 app.get('/api/vagas', function (request, response) {
     response.json(dados);
+});
+
+app.post('/api/vagas', function (request, response) {
+    var vagaNome = request.param('nome');
+    var vagaSalario = request.param('salario');
+    var vagaMax = request.param('quantVagasMax');
+    var vagaDiasTrab = request.param('diasTrab');
+    var vagaHrTrab = request.param('hrTrab');
+    var vagaLocal = request.param('local');
+    var vagaEnd = request.param('end');
+    var vagaConheExtra = request.param('conheExtra');
+    var vagaDatIns = request.param('datInsc');
+    var vagaDatUltAlt = new Date();
+    MongoClient.connect(url, function (err, db) {
+
+        db.collection('Vagas', function (err, collection) {
+            collection.insert({ nome: vagaNome,
+                 salario: vagaSalario},
+                 quantVagasMax: vagaMax,
+                 diasTrab: vagaDiasTrab,
+                 hrTrab: vagaHrTrab,
+                 local: vagaLocal,
+                 end: vagaEnd,
+                 conheExtra: vagaConheExtra,
+                 datInsc: vagaDatIns})
+{ datUltAlt: vagaDatUltAlt})
+            return response.sendStatus(200);
+        });
+    });
 });
 
 isAuth = function(req, res, next) {
