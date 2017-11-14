@@ -89,6 +89,11 @@ app.get('/admin/visualizar-vagas', function (req, res, next) {
    res.sendFile(__dirname + '/frontend/templates/admin/visualizar.html');
 });
 
+app.get('/admin/cadastrar-vagas', function (req, res, next) {
+    console.log('GET CADA');
+    res.sendFile(__dirname + '/frontend/templates/admin/cadastrarVaga.html');
+});
+
 app.post('/login',  function (request, response) {
     var email = request.param('username');
     var senha = request.param('password');
