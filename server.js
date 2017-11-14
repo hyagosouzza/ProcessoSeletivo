@@ -1,8 +1,10 @@
-    var express = require('express');
+var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
 var io = require('socket.io')(server);
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
 
 //Vamos importar os drivers nativos do mongodb
 var mongodb = require('mongodb');
@@ -13,7 +15,9 @@ var MongoClient = mongodb.MongoClient;
 // URL da conexão 
 var url = 'mongodb://hyagosouzza:hyago0123@ds161873.mlab.com:61873/selecao_de_vagas';
 
-var admins;
+var cadastros;
+
+app.use(cookieParser());
 
 // Usamos o método connect para se conectar com o servidor
 MongoClient.connect(url, function (err, db) {
@@ -39,13 +43,13 @@ MongoClient.connect(url, function (err, db) {
             }
 
         });
-        collection = db.collection('Admins');
+        collection = db.collection('cadastro');
         collection.find({}).toArray(function (err, resultado) {
             if (err) {
                 console.log(err);
             } else if (resultado.length) {
                 console.log('Encontrado:', resultado)
-                admins = resultado;
+                cadastros = resultado;
             } else {
                 console.log('Nenhum documento encontrado!')
             }
@@ -57,18 +61,48 @@ MongoClient.connect(url, function (err, db) {
     }
 });
 
+
+app.use(express.static(__dirname + '/frontend'));
+
+app.use('\/admin(\#\!)?(\//w*)?', function(req, res, next) {
+    console.log('Verificando Admin');
+    console.log('Cookies: ' + req.cookies.logado);
+    var isLogged = req.cookies.logado;
+    if (isLogged == '1') {
+        //res.sendFile(__dirname + '/frontend/templates/admin/admin.html');
+        next();
+    }
+    else {
+        //res.status(401).send('Usuário sem permissão');
+        res.redirect('http://localhost:8000');
+    }
+});
+
+/*app.get('/admin/:more', function (req, res, next) {
+    console.log('Path: ' + req.path);
+
+    res.sendFile(__dirname + '/frontend/index2.html');
+});*/
+
+app.get('/admin/visualizar-vagas', function (req, res, next) {
+   console.log('GET VISU');
+   res.sendFile(__dirname + '/frontend/templates/admin/visualizar.html');
+});
+
 app.post('/login',  function (request, response) {
     var email = request.param('username');
     var senha = request.param('password');
 
     var isAdmin = false;
 
-    for (index in admins) {
-      console.log('checando ' + admins[index].email + ' ' + admins[index].senha) ;
+    for (index in cadastros) {
+      console.log('checando ' + cadastros[index].email + ' ' + cadastros[index].senha) ;
       console.log(email + ' ' + encrypt(senha));
-      if (email == admins[index].email && encrypt(senha) == admins[index].senha) {
-          return response.send('#!/admin');
+      if (email == cadastros[index].email && encrypt(senha) == cadastros[index].senha) {
           isAdmin = true;
+          response.cookie('logado', '1', { maxAge : 30 * 60  * 1000});
+          console.log('Cookie Criado');
+          return response.send('/admin');
       }
     }
 
@@ -77,26 +111,34 @@ app.post('/login',  function (request, response) {
     }
 });
 
-app.get('/api/vagas', function (request, response) {
+app.post('/logout', function (req, res, next) {
+    console.log('LOGOUT POST');
+    res.cookie('logado', '0', {maxAge: 1});
+    //res.clearCookie('logado');
+    return res.sendStatus(200);
+});
+
+//app.get('(/w*)?/logout', function (req, res, next) {
+app.get('/logout', function (req, res, next) {
+    console.log('LOGOUT GET');
+    res.cookie('logado', '0', {maxAge: 1});
+    return res.redirect('http://localhost:8000');
+});
+
+app.get('/api/vagas', function (request, response, next) {
+    console.log(dados);
     response.json(dados);
+    next();
 });
 
-isAuth = function(req, res, next) {
-    res.status(401).send('Usuário sem permissão');
+redirectAdmin = function(req, res, next) {
+    res.sendFile(__dirname + '/frontend/templates/admin/admin.html');
+    next();
 };
-app.get('http://localhost:8000/!#/admin', isAuth, function (req, res) {
+
+app.get('/admin', redirectAdmin, function (req, res, next) {
     console.log('GET ADMIN');
 });
-
-app.get('/!#/admin', isAuth, function (req, res) {
-    console.log('GET ADMIN');
-});
-
-app.get('/admin', isAuth, function (req, res) {
-    console.log('GET ADMIN');
-});
-
-app.use(express.static(__dirname + '/frontend'));
 
 encrypt = function (string) {
     encrypted = 0;
