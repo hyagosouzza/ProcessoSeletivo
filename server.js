@@ -1,4 +1,4 @@
-var express = require('express');
+﻿var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
@@ -96,15 +96,15 @@ app.post('/api/vagas', function (request, response) {
 
         db.collection('Vagas', function (err, collection) {
             collection.insert({ nome: vagaNome,
-                 salario: vagaSalario},
+                 salario: vagaSalario,
                  quantVagasMax: vagaMax,
                  diasTrab: vagaDiasTrab,
                  hrTrab: vagaHrTrab,
                  local: vagaLocal,
                  end: vagaEnd,
                  conheExtra: vagaConheExtra,
-                 datInsc: vagaDatIns})
-{ datUltAlt: vagaDatUltAlt})
+                 datInsc: vagaDatIns,
+                datUltAlt: vagaDatUltAlt})
             return response.sendStatus(200);
         });
     });
