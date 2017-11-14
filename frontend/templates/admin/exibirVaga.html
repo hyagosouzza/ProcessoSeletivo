@@ -1,0 +1,78 @@
+<div class="b-superior">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 id="ps">Processo Seletivo</h1>
+      </div>
+      <div class="col-md-6 text-right">
+        <a href="http://localhost:8000/#!/"><button id="sair" type="submit" class="btn">Sair</button></a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h3 id="textos">Hoje, {{data | date: 'dd'}} de {{data | date: 'MMMM'}} de {{data | date: 'yyyy'}}</h3>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <p id="adm-nome">Administrador do Sistema</p>
+      </div>
+    </div>
+  </div>
+</div>
+</br>
+<div class="container" ng-init="getVaga()">
+  <div class="row">
+    <div class="col-md-9" id="vaga-titulo">
+      Informações da Vaga
+    </div>
+    <div class="col-md-3">
+      <a id="voltar" class="btn" href="#!/admin/visualizar-vagas">Voltar</a>
+    </div>
+  </div>
+  <hr id="linha">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <a href="" class="btn" id="vaga-nome">{{vaga[0].nome}}</a>
+      </div>
+      <div class="col-md-4 text-right">
+        <a href="" class="btn" id="vaga-btn"><img id="imge2" src="https://icon-icons.com/icons2/916/PNG/32/Edit_icon-icons.com_71853.png"/></a>
+        <a href="" class="btn" id="vaga-btn"><img id="imge2" src="https://icon-icons.com/icons2/692/PNG/32/seo-social-web-network-internet_262_icon-icons.com_61518.png"/></a>
+      </div>
+    </div>
+    <table class="table table-striped" id="borda">
+      <tr id="tabela2">
+        <td id="tag2">Salário:</td>
+        <td>{{vaga[0].salario}}</td>
+      </tr>
+      <tr id="tabela">
+        <td id="tag2">Quantidade máxima de vagas:</td>
+        <td>{{vaga[0].quantVagasMax}}</td>
+      </tr>
+      <tr id="tabela2">
+        <td id="tag2">Dias de trabalho:</td>
+        <td>{{vaga[0].diasTrab}}</td>
+      </tr>
+      <tr id="tabela">
+        <td id="tag2">Período/Horas de trabalho:</td>
+        <td>{{vaga[0].hrTrab}}</td>
+      </tr>
+      <tr id="tabela2">
+        <td id="tag2">Local:</td>
+        <td>{{vaga[0].local}}</td>
+      </tr>
+      <tr id="tabela">
+        <td id="tag2">Endereço:</td>
+        <td>{{vaga[0].end}}</td>
+      </tr>
+      <tr id="tabela2">
+        <td id="tag2">Conhecimentos extra:</td>
+        <td>{{vaga[0].conheExtra}}</td>
+      </tr>
+      <tr id="tabela">
+        <td id="tag2">Data limite de inscriçao:</td>
+        <td>{{vaga[0].datInsc}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

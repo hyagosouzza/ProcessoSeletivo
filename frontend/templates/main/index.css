@@ -54,13 +54,17 @@
     width: 15%;
 }
 
+#tag2 {
+    font-weight: bold;
+    width: 35%;
+}
+
 #vaga-nome {
     background: #f47957;
     font-weight: bold;
     width: 100%;
     color: black;
     border-radius: 0px;
-    opacity: 1;
 }
 
 #vaga-info {
@@ -69,7 +73,14 @@
     width: 60%;
     color: black;
     border-radius: 0px;
-    opacity: 1;
+}
+
+#vaga-btn {
+    background: white;
+    font-weight: bold;
+    width: 15%;
+    border-radius: 0px;
+    border: 1px solid black;
 }
 
 .table {

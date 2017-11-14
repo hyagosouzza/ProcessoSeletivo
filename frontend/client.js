@@ -4,16 +4,20 @@ angular.module('meuApp', ['ngRoute'])
             templateUrl: 'templates/main/index.html',
             controller: 'mainController'
         })
-        .when('/admin', {
-            templateUrl: 'templates/admin/admin.html',
-            controller: 'mainController'
-        })
-        .when('/admin/visualizar-vagas', {
-            templateUrl: 'templates/admin/visualizar.html',
-            controller: 'mainController'
-        })
-        .when('/admin/cadastrar-vagas', {
-            templateUrl: 'templates/admin/cadastrarVaga.html',
-            controller: 'mainController'
-        });
+            .when('/admin', {
+                templateUrl: 'templates/admin/admin.html',
+                controller: 'mainController'
+            })
+            .when('/admin/visualizar-vagas', {
+                templateUrl: 'templates/admin/visualizar.html',
+                controller: 'mainController'
+            })
+            .when('/admin/cadastrar-vagas', {
+                templateUrl: 'templates/admin/cadastrarVaga.html',
+                controller: 'mainController'
+            })
+            .when('/admin/visualizar-vagas/detalhes/:id', {
+                controller: 'mainController',
+                templateUrl: 'templates/admin/exibirVaga.html'
+            })
     });

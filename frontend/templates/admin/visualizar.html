@@ -33,10 +33,10 @@
   <div class="container" ng-repeat="vaga in vagas">
     <div class="row">
       <div class="col-md-4">
-        <a href="" class="btn" id="vaga-nome">{{vaga.cargo}}</a>
+        <a href="#!/admin/visualizar-vagas/detalhes/{{vaga._id}}" class="btn" id="vaga-nome">{{vaga.nome}}</a>
       </div>
       <div class="col-md-4 text-right">
-        <a href="" class="btn" id="vaga-info"><img id="imge2" src="https://icon-icons.com/icons2/109/PNG/32/general_get_info_18446.png"/>Mais informações</a>
+        <a href="#!/admin/visualizar-vagas/detalhes/{{vaga._id}}" class="btn" id="vaga-info"><img id="imge2" src="https://icon-icons.com/icons2/109/PNG/32/general_get_info_18446.png"/>Mais informações</a>
       </div>
     </div>
     <table class="table table-striped" id="borda">
