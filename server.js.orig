@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+﻿var express = require('express');
+=======
 var express = require('express');
+>>>>>>> retspa
 var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
@@ -29,6 +33,9 @@ MongoClient.connect(url, function (err, db) {
         console.log('Conexão com o banco de dados estabelecida com sucesso')
 
         // Obtem a coleção de documentos
+<<<<<<< HEAD
+        var collection = db.collection('cadastro');
+=======
         var collection = db.collection('Vagas');
 
         //usando o comando find  para achar dados
@@ -44,6 +51,7 @@ MongoClient.connect(url, function (err, db) {
 
         });
         collection = db.collection('cadastro');
+>>>>>>> retspa
         collection.find({}).toArray(function (err, resultado) {
             if (err) {
                 console.log(err);
@@ -61,6 +69,9 @@ MongoClient.connect(url, function (err, db) {
     }
 });
 
+<<<<<<< HEAD
+app.post('/login', function (request, response) {
+=======
 
 app.use(express.static(__dirname + '/frontend'));
 
@@ -90,11 +101,21 @@ app.get('/admin/visualizar-vagas', function (req, res, next) {
 });
 
 app.post('/login',  function (request, response) {
+>>>>>>> retspa
     var email = request.param('username');
     var senha = request.param('password');
 
     var isAdmin = false;
 
+<<<<<<< HEAD
+    for (index in admins) {
+        console.log('checando ' + admins[index].email + ' ' + admins[index].senha);
+        console.log(email + ' ' + encrypt(senha));
+        if (email == admins[index].email && encrypt(senha) == admins[index].senha) {
+            return response.send('#!/admin');
+            isAdmin = true;
+        }
+=======
     for (index in cadastros) {
       console.log('checando ' + cadastros[index].email + ' ' + cadastros[index].senha) ;
       console.log(email + ' ' + encrypt(senha));
@@ -104,6 +125,7 @@ app.post('/login',  function (request, response) {
           console.log('Cookie Criado');
           return response.send('/admin');
       }
+>>>>>>> retspa
     }
 
     if (!isAdmin) {
@@ -111,6 +133,7 @@ app.post('/login',  function (request, response) {
     }
 });
 
+<<<<<<< HEAD
 app.get('/api/vagas', function (request, response) {
     // Usamos o método connect para se conectar com o servidor
     MongoClient.connect(url, function (err, db) {
@@ -209,6 +232,12 @@ app.post('/api/vagas', function (request, response) {
     });
 });
 
+isAuth = function (req, res, next) {
+    res.status(401).send('Usuário sem permissão');
+};
+app.get('http://localhost:8000/!#/admin', isAuth, function (req, res) {
+    console.log('GET ADMIN');
+=======
 app.post('/logout', function (req, res, next) {
     console.log('LOGOUT POST');
     res.cookie('logado', '0', {maxAge: 1});
@@ -221,6 +250,7 @@ app.get('/logout', function (req, res, next) {
     console.log('LOGOUT GET');
     res.cookie('logado', '0', {maxAge: 1});
     return res.redirect('http://localhost:8000');
+>>>>>>> retspa
 });
 
 app.get('/api/vagas', function (request, response, next) {

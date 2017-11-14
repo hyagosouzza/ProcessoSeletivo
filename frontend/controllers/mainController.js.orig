@@ -69,6 +69,7 @@ angular.module('meuApp')
                 return alert('Ocorreu um erro');
             });
         }
+<<<<<<< HEAD
 
         $scope.getVaga = function () {
             var id = $routeParams.id;
@@ -90,3 +91,7 @@ angular.module('meuApp')
         }
 
     }]);
+=======
+    }]);
+
+>>>>>>> retspa

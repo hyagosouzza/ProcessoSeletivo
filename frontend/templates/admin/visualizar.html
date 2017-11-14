@@ -1,16 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="visu">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Processo Seletivo</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="/templates/main/index.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="../clientadmin.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Cairo|Coustard|Shadows+Into+Light" rel="stylesheet">
+</head>
+<body ng-controller="mainController">
+<script src="../controllers/mainControllerAdmin.js"></script>
 <div class="b-superior">
   <div class="container">
     <div class="row">
       <div class="col-md-6">
         <h1 id="ps">Processo Seletivo</h1>
       </div>
-      <div class="col-md-6 text-right">
-        <a href="http://localhost:8000/#!/"><button id="sair" type="submit" class="btn">Sair</button></a>
+      <div class="col-md-6 text-right" ng-controller="mainController">
+        <a ng-controller="mainController"><button  id="sair" type="submit" class="btn" ng-click="sair()">Sair</button></a>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4">
-        <h3 id="textos">Hoje, {{data | date: 'dd'}} de {{data | date: 'MMMM'}} de {{data | date: 'yyyy'}}</h3>
+        <h3 id="textos">Hoje, {{dia}} de {{mes}} de {{ano}}</h3>
       </div>
       <div class="col-md-4"></div>
       <div class="col-md-4">
@@ -26,7 +47,7 @@
       Vagas cadastradas no sistema
     </div>
     <div class="col-md-3">
-      <a id="voltar" class="btn" href="#!/admin">Voltar</a>
+      <a id="voltar" class="btn" href="http://localhost:8000/admin">Voltar</a>
     </div>
   </div>
   <hr id="linha">
@@ -55,4 +76,5 @@
     </table>
   </div>
 </div>
-</div>
+</body>
+</html>
