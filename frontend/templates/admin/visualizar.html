@@ -1,80 +1,151 @@
 <!DOCTYPE html>
 <html ng-app="visu">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Processo Seletivo</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-        crossorigin="anonymous">
-  <link type="text/css" rel="stylesheet" href="/templates/main/index.css"/>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
-  <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="../clientadmin.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Cairo|Coustard|Shadows+Into+Light" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Processo Seletivo</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/templates/main/index.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!--
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+     //-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+    <script src="../clientadmin.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Cairo|Coustard|Shadows+Into+Light" rel="stylesheet">
 </head>
 <body ng-controller="mainController">
 <script src="../controllers/mainControllerAdmin.js"></script>
 <div class="b-superior">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h1 id="ps">Processo Seletivo</h1>
-      </div>
-      <div class="col-md-6 text-right" ng-controller="mainController">
-        <a ng-controller="mainController"><button  id="sair" type="submit" class="btn" ng-click="sair()">Sair</button></a>
-      </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 id="ps">Processo Seletivo</h1>
+            </div>
+            <div class="col-md-6 text-right" ng-controller="mainController">
+                <a ng-controller="mainController">
+                    <button id="sair" type="submit" class="btn" ng-click="sair()">Sair</button>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3 id="textos">Hoje, {{dia}} de {{mes}} de {{ano}}</h3>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <p id="adm-nome">Administrador do Sistema</p>
+            </div>
+        </div>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <h3 id="textos">Hoje, {{dia}} de {{mes}} de {{ano}}</h3>
-      </div>
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <p id="adm-nome">Administrador do Sistema</p>
-      </div>
-    </div>
-  </div>
 </div>
 </br>
 <div class="container">
-  <div ng-init="getVagas()" class="row">
-    <div class="col-md-9" id="vaga-titulo">
-      Vagas cadastradas no sistema
+    <div ng-init="getVagas()" class="row">
+        <div class="col-md-9" id="vaga-titulo">
+            Vagas cadastradas no sistema
+        </div>
+        <div class="col-md-3">
+            <a id="voltar" class="btn" href="http://localhost:8000/admin">Voltar</a>
+        </div>
     </div>
-    <div class="col-md-3">
-      <a id="voltar" class="btn" href="http://localhost:8000/admin">Voltar</a>
+    <hr id="linha">
+    <div class="container" ng-repeat="vaga in vagas">
+        <div class="row">
+            <div class="col-md-4">
+                <a ng-click="getVaga(vaga._id)" class="btn" id="vaga-nome" data-toggle="modal" data-target="#exampleModal">{{vaga.nome}}</a>
+            </div>
+            <div class="col-md-4 text-right">
+                <a ng-click="getVaga(vaga._id)" class="btn" id="vaga-info" data-toggle="modal" data-target="#exampleModal"><img id="imge2" src="https://icon-icons.com/icons2/109/PNG/32/general_get_info_18446.png"/>Mais
+                    informações</a>
+            </div>
+        </div>
+        <table class="table table-vagas table-striped" id="borda">
+            <tr id="tabela2">
+                <td id="tag">Salário:</td>
+                <td>{{vaga.salario}}</td>
+            </tr>
+            <tr id="tabela">
+                <td id="tag">Local:</td>
+                <td>{{vaga.local}}</td>
+            </tr>
+            <tr id="tabela2">
+                <td id="tag">Endereço:</td>
+                <td>{{vaga.end}}</td>
+            </tr>
+        </table>
     </div>
-  </div>
-  <hr id="linha">
-  <div class="container" ng-repeat="vaga in vagas">
-    <div class="row">
-      <div class="col-md-4">
-        <a href="#!/admin/visualizar-vagas/detalhes/{{vaga._id}}" class="btn" id="vaga-nome">{{vaga.nome}}</a>
-      </div>
-      <div class="col-md-4 text-right">
-        <a href="#!/admin/visualizar-vagas/detalhes/{{vaga._id}}" class="btn" id="vaga-info"><img id="imge2" src="https://icon-icons.com/icons2/109/PNG/32/general_get_info_18446.png"/>Mais informações</a>
-      </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{vaga[0].nome}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md text-right">
+                                <a ng-click="editarVaga(vaga[0]._id)" href="" class="btn" id="vaga-btn"><img id="imge2" src="https://icon-icons.com/icons2/916/PNG/32/Edit_icon-icons.com_71853.png"/></a>
+                                <a href="" class="btn" id="vaga-btn"><img id="imge2" src="https://icon-icons.com/icons2/692/PNG/32/seo-social-web-network-internet_262_icon-icons.com_61518.png"/></a>
+                            </div>
+                        </div>
+                        <table class="table" id="borda">
+                            <tr id="tabela2">
+                                <td id="tag2">Salário:</td>
+                                <td>{{vaga[0].salario}}</td>
+                            </tr>
+                            <tr id="tabela">
+                                <td id="tag2">Quantidade máxima de vagas:</td>
+                                <td>{{vaga[0].quantVagasMax}}</td>
+                            </tr>
+                            <tr id="tabela2">
+                                <td id="tag2">Dias de trabalho:</td>
+                                <td>{{vaga[0].diasTrab}}</td>
+                            </tr>
+                            <tr id="tabela">
+                                <td id="tag2">Período/Horas de trabalho:</td>
+                                <td>{{vaga[0].hrTrab}}</td>
+                            </tr>
+                            <tr id="tabela2">
+                                <td id="tag2">Local:</td>
+                                <td>{{vaga[0].local}}</td>
+                            </tr>
+                            <tr id="tabela">
+                                <td id="tag2">Endereço:</td>
+                                <td>{{vaga[0].end}}</td>
+                            </tr>
+                            <tr id="tabela2">
+                                <td id="tag2">Conhecimentos extra:</td>
+                                <td>{{vaga[0].conheExtra}}</td>
+                            </tr>
+                            <tr id="tabela">
+                                <td id="tag2">Data limite de inscriçao:</td>
+                                <td>{{vaga[0].datInsc}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <table class="table table-striped" id="borda">
-      <tr id="tabela2">
-        <td id="tag">Salário:</td>
-        <td>{{vaga.salario}}</td>
-      </tr>
-      <tr id="tabela">
-        <td id="tag">Local:</td>
-        <td>{{vaga.local}}</td>
-      </tr>
-      <tr id="tabela2">
-        <td id="tag">Endereço:</td>
-        <td>{{vaga.end}}</td>
-      </tr>
-    </table>
-  </div>
 </div>
 </body>
 </html>

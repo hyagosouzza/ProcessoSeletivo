@@ -1,6 +1,9 @@
 angular.module('visu', ['ngRoute']).config(function ($routeProvider, $locationProvider) {
-    $routeProvider.when('/', {
+    $routeProvider/*.when('/', {
         templateUrl: '../templates/admin/visualizar.html',
+        controller: 'mainController'
+    })*/.when('/detalhes/:id', {
+        templateUrl: '../templates/admin/exibirVaga.html',
         controller: 'mainController'
     });
 });

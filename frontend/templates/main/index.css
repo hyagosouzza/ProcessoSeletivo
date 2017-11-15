@@ -83,9 +83,13 @@
     border: 1px solid black;
 }
 
-.table {
+.table-vagas {
     border: 2px solid black;
     width: 70%;
+}
+
+.table {
+    border: 2px solid black
 }
 
 #op-adm:hover {
@@ -164,6 +168,20 @@
 #vaga-titulo {
     font-family: 'Coustard', serif;
     font-size: 30px;
+    color: #f15025;
+    text-align: left;
+}
+
+#modal-body-custom {
+    position:relative;
+    -ms-flex:1 1 auto;
+    flex:1 1 auto;
+    padding:0px
+}
+
+#vaga-detail {
+    font-family: 'Coustard', serif;
+    font-size: 15px;
     color: #f15025;
     text-align: left;
 }

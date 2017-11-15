@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
-var io = require('socket.io')(server);
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 
@@ -90,6 +89,11 @@ app.get('/admin/visualizar-vagas', function (req, res, next) {
 });
 
 app.get('/admin/cadastrar-vagas', function (req, res, next) {
+    console.log('GET CADA');
+    res.sendFile(__dirname + '/frontend/templates/admin/cadastrarVaga.html');
+});
+
+app.get('/admin/cadastrar-vagas:_id', function (req, res, next) {
     console.log('GET CADA');
     res.sendFile(__dirname + '/frontend/templates/admin/cadastrarVaga.html');
 });
@@ -252,10 +256,6 @@ encrypt = function (string) {
     encrypted = encrypted.toString(16);
     return encrypted;
 };
-
-io.on('connection', function (client) {
-    console.log("Client connected");
-});
 
 var porta = process.env.PORT || 8000;
 server.listen(porta, function () {

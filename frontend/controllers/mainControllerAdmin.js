@@ -61,11 +61,20 @@ angular.module('visu').controller('mainController', ['$scope', '$http', '$locati
             });
         };
 
-        $scope.getVaga = function () {
-            var id = $routeParams.id;
+        $scope.getVaga = function (vagaId) {
+            var id = vagaId;
+            console.log('GET VAGA' + id);
             $http.get('/api/vagas/'+id).then(function (response) {
                 $scope.vaga = response.data;
+                if (!$scope.vaga[0].conheExtra || $scope.vaga.conheExtra == undefined) {
+                    $scope.vaga[0].conheExtra = 'N/A';
+                }
             });
+        };
+
+        $scope.editarVaga = function (vagaId) {
+            var id = vagaId;
+            window.location.href = "http://localhost:8000/admin/cadastrar-vagas:" + id;
         };
     }]);
 
@@ -116,6 +125,21 @@ angular.module('cada').controller('mainController', ['$scope', '$http', '$locati
                 $scope.mes = 'Dezembro';
                 break;
         }
+
+        $scope.loadVaga = function () {
+            var path = window.location.href.split("cadastrar-vagas:");
+            if (path[1] && path[1] != 'undefined') {
+                $http.get('/api/vagas/'+path[1]).then(function (response) {
+                    if (!response.data[0].conheExtra || response.data[0].conheExtra == 'undefined'
+                        || response.data[0].conheExtra == undefined) {
+                        response.data[0].conheExtra = '';
+                    }
+                    $scope.vaga = response.data[0];
+                });
+            } else {
+                console.log("Sem parâmetro");
+            }
+        };
 
         $scope.addVaga = function(){
             $http.post('/api/vagas?nome=' + $scope.vaga.nome + '&salario=' + $scope.vaga.salario +

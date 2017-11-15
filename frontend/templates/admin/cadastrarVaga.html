@@ -13,7 +13,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="../clientadmin.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Cairo|Coustard|Shadows+Into+Light" rel="stylesheet">
 </head>
@@ -53,7 +52,7 @@
     <hr id="linha">
     <div  class="container">
 
-        <form name="addVagaForm" ng-submit="addVaga()">
+        <form name="addVagaForm" ng-submit="addVaga()" ng-init="loadVaga()">
 
             <input type="text" class="form-control" ng-model="vaga.nome" placeholder="Nome da Vaga" ng-required="true">
             </br>
