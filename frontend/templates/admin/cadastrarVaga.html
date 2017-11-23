@@ -16,7 +16,7 @@
     <script src="../clientadmin.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Cairo|Coustard|Shadows+Into+Light" rel="stylesheet">
 </head>
-<body ng-controller="mainController">
+<body ng-controller="mainController" ng-init="loadVaga()">
 <script src="../controllers/mainControllerAdmin.js"></script>
 <div class="b-superior">
     <div class="container">
@@ -47,14 +47,17 @@
         <div class="col-md-9" id="vaga-titulo">
             {{title}}
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" ng-if="!isEdit">
             <a id="voltar" class="btn" href="http://localhost:8000/admin">Voltar</a>
+        </div>
+        <div class="col-md-3" ng-if="isEdit">
+            <a id="voltar" class="btn" href="http://localhost:8000/admin/visualizar-vagas">Voltar</a>
         </div>
     </div>
     <hr id="linha">
     <div class="container">
 
-        <form name="addVagaForm" ng-submit="addVaga()" ng-init="loadVaga()">
+        <form name="addVagaForm" ng-submit="addVaga()">
 
             <input type="text" class="form-control" ng-model="vaga.nome" placeholder="Nome da Vaga"
                    ng-required="true" ng-readonly="isEdit">

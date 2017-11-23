@@ -66,11 +66,13 @@
     <div class="container" ng-repeat="vaga in vagas">
         <div class="row">
             <div class="col-md-4">
-                <a ng-click="getVaga(vaga._id)" class="btn" id="vaga-nome" data-toggle="modal" data-target="#exampleModal">{{vaga.nome}}</a>
+                <a ng-click="getVaga(vaga._id)" class="btn" id="vaga-nome" data-toggle="modal"
+                   data-target="#exampleModal" href="">{{vaga.nome}}</a>
             </div>
             <div class="col-md-4 text-right">
-                <a ng-click="getVaga(vaga._id)" class="btn" id="vaga-info" data-toggle="modal" data-target="#exampleModal"><img id="imge2" src="https://icon-icons.com/icons2/109/PNG/32/general_get_info_18446.png"/>Mais
-                    informações</a>
+                <a ng-click="getVaga(vaga._id)" class="btn" id="vaga-info" data-toggle="modal"
+                   data-target="#exampleModal" href=""><img id="imge2"
+                    src="https://icon-icons.com/icons2/109/PNG/32/general_get_info_18446.png"/>Mais informações</a>
             </div>
         </div>
         <table class="table table-vagas table-striped" id="borda">

@@ -16,6 +16,7 @@ var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://hyagosouzza:hyago0123@ds161873.mlab.com:61873/selecao_de_vagas';
 
 var cadastros;
+var dataBase;
 
 app.use(cookieParser());
 
@@ -55,9 +56,9 @@ MongoClient.connect(url, function (err, db) {
             }
 
         });
-
+        dataBase = db;
         //Fecha a conexão
-        db.close();
+        //db.close();
     }
 });
 
@@ -142,19 +143,10 @@ app.post('/login', function (request, response) {
         return response.status(401).send('Usuário inexistente ou sem permissão');
     }
 });
-
+var vagaCollection;
 app.get('/api/vagas', function (request, response) {
-    // Usamos o método connect para se conectar com o servidor
-    MongoClient.connect(url, function (err, db) {
-        if (err) {
-            console.log('Não foi possível se conectar com o servidor MongoDB. Error:', err)
-        }
-        else {
-            //feita a conexão
-            console.log('Conexão com o banco de dados estabelecida com sucesso')
-
             // Obtem a coleção de documentos
-            var collection = db.collection('Vagas');
+            var collection = dataBase.collection('Vagas');
 
             //usando o comando find  para achar dados
             collection.find({}).toArray(function (err, resultado) {
@@ -168,28 +160,19 @@ app.get('/api/vagas', function (request, response) {
                 }
 
             });
-
-            //Fecha a conexão
-            db.close();
-        }
-    });
+    vagaCollection = collection;
 });
+
+
 
 app.get('/api/vagas/:_id', function (request, response) {
     var ObjectId = require('mongodb').ObjectId;
     var id = request.params._id;
     var o_id = new ObjectId(id);
-    // Usamos o método connect para se conectar com o servidor
-    MongoClient.connect(url, function (err, db) {
-        if (err) {
-            console.log('Não foi possível se conectar com o servidor MongoDB. Error:', err)
-        }
-        else {
-            //feita a conexão
-            console.log('Conexão com o banco de dados estabelecida com sucesso')
 
             // Obtem a coleção de documentos
-            var collection = db.collection('Vagas');
+            //var collection = dataBase.collection('Vagas');
+            var collection = vagaCollection;
 
             //usando o comando find  para achar dados
             collection.find({_id: o_id}).toArray(function (err, resultado) {
@@ -203,11 +186,6 @@ app.get('/api/vagas/:_id', function (request, response) {
                 }
 
             });
-
-            //Fecha a conexão
-            db.close();
-        }
-    });
 });
 
 app.post('/api/vagas', function (request, response) {
@@ -226,7 +204,6 @@ app.post('/api/vagas', function (request, response) {
 
     console.log('isEdit = ' + isEdit);
     console.log('id = ' + id);
-    MongoClient.connect(url, function (err, db) {
         if (isEdit == true || isEdit == "true") {
             var query = {"_id": new ObjectID(id)};
             var newVal = {
@@ -242,7 +219,7 @@ app.post('/api/vagas', function (request, response) {
                     datUltAlt: vagaDatUltAlt
                 }
             };
-            db.collection('Vagas', function (err, collection) {
+            dataBase.collection('Vagas', function (err, collection) {
                 collection.updateOne(query, newVal, function (err, res) {
                     if (err) throw err;
                     console.log("1 document updated");
@@ -250,7 +227,7 @@ app.post('/api/vagas', function (request, response) {
                 })
             });
         } else {
-            db.collection('Vagas', function (err, collection) {
+            dataBase.collection('Vagas', function (err, collection) {
                 collection.insert({
                     nome: vagaNome,
                     salario: vagaSalario,
@@ -266,23 +243,15 @@ app.post('/api/vagas', function (request, response) {
                 return response.sendStatus(200);
             });
         }
-    });
 });
 
 app.delete('/api/vagas/:_id', function (request, response) {
     var ObjectId = require('mongodb').ObjectId;
     var id = request.params._id;
     var o_id = new ObjectId(id);
-    MongoClient.connect(url, function (err, db) {
-        if (err) {
-            console.log('Não foi possível se conectar com o servidor MongoDB. Error:', err)
-        }
-        else {
-            //feita a conexão
-            console.log('Conexão com o banco de dados estabelecida com sucesso')
 
             // Obtem a coleção de documentos
-            var collection = db.collection('Vagas')
+            var collection = dataBase.collection('Vagas')
 
             //usando o comando update para atualizar dados
             collection.deleteOne({_id: o_id}, function (err, numUpdated) {
@@ -294,11 +263,7 @@ app.delete('/api/vagas/:_id', function (request, response) {
                 } else {
                     console.log('Nenhum documento encontrado!')
                 }
-                //Fecha a conexão
-                db.close();
             });
-        }
-    });
 });
 
 app.post('/logout', function (req, res, next) {
