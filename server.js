@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 
 //Vamos importar os drivers nativos do mongodb
 var mongodb = require('mongodb');
+var ObjectID = require('mongodb').ObjectID;
 
 //Precisamos usar a interface "MongoClient" para se conectar com o servidor
 var MongoClient = mongodb.MongoClient;
@@ -63,12 +64,26 @@ MongoClient.connect(url, function (err, db) {
 
 app.use(express.static(__dirname + '/frontend'));
 
-app.use('\/admin(\#\!)?(\//w*)?', function(req, res, next) {
+app.use('\/admin(\#\!)?(\//w*)?', function (req, res, next) {
     console.log('Verificando Admin');
     console.log('Cookies: ' + req.cookies.logado);
     var isLogged = req.cookies.logado;
     if (isLogged == '1') {
         //res.sendFile(__dirname + '/frontend/templates/admin/admin.html');
+        next();
+    }
+    else {
+        //res.status(401).send('Usuário sem permissão');
+        res.redirect('http://localhost:8000');
+    }
+});
+
+app.use('\/user(\#\!)?(\//w*)?', function (req, res, next) {
+    console.log('Verificando User');
+    console.log('Cookies: ' + req.cookies.logado);
+    var isLogged = req.cookies.logado;
+    if (isLogged == '2') {
+        //res.sendFile(__dirname + '/frontend/templates/main/user.html');
         next();
     }
     else {
@@ -84,8 +99,8 @@ app.use('\/admin(\#\!)?(\//w*)?', function(req, res, next) {
 });*/
 
 app.get('/admin/visualizar-vagas', function (req, res, next) {
-   console.log('GET VISU');
-   res.sendFile(__dirname + '/frontend/templates/admin/visualizar.html');
+    console.log('GET VISU');
+    res.sendFile(__dirname + '/frontend/templates/admin/visualizar.html');
 });
 
 app.get('/admin/cadastrar-vagas', function (req, res, next) {
@@ -98,21 +113,29 @@ app.get('/admin/cadastrar-vagas:_id', function (req, res, next) {
     res.sendFile(__dirname + '/frontend/templates/admin/cadastrarVaga.html');
 });
 
-app.post('/login',  function (request, response) {
+app.post('/login', function (request, response) {
     var email = request.param('username');
     var senha = request.param('password');
 
     var isAdmin = false;
 
     for (index in cadastros) {
-      console.log('checando ' + cadastros[index].email + ' ' + cadastros[index].senha) ;
-      console.log(email + ' ' + encrypt(senha));
-      if (email == cadastros[index].email && encrypt(senha) == cadastros[index].senha) {
-          isAdmin = true;
-          response.cookie('logado', '1', { maxAge : 30 * 60  * 1000});
-          console.log('Cookie Criado');
-          return response.send('/admin');
-      }
+        console.log('checando ' + cadastros[index].email + ' ' + cadastros[index].senha);
+        console.log(email + ' ' + encrypt(senha));
+        if (email == cadastros[index].email && encrypt(senha) == cadastros[index].senha) {
+            if (cadastros[index].tipo == "A") {
+                isAdmin = true;
+                response.cookie('logado', '1', {maxAge: 30 * 60 * 1000});
+                console.log('Cookie Criado');
+                return response.send('/admin');
+            } else if (cadastros[index].tipo == "U") {
+                isAdmin = true;
+                response.cookie('logado', '2', {maxAge: 30 * 60 * 1000});
+                console.log('Cookie Criado');
+                return response.send('/user');
+            }
+
+        }
     }
 
     if (!isAdmin) {
@@ -153,8 +176,8 @@ app.get('/api/vagas', function (request, response) {
 });
 
 app.get('/api/vagas/:_id', function (request, response) {
-    var ObjectId = require('mongodb').ObjectId; 
-    var id = request.params._id;       
+    var ObjectId = require('mongodb').ObjectId;
+    var id = request.params._id;
     var o_id = new ObjectId(id);
     // Usamos o método connect para se conectar com o servidor
     MongoClient.connect(url, function (err, db) {
@@ -198,23 +221,83 @@ app.post('/api/vagas', function (request, response) {
     var vagaConheExtra = request.param('conheExtra');
     var vagaDatIns = request.param('datInsc');
     var vagaDatUltAlt = new Date();
-    MongoClient.connect(url, function (err, db) {
+    var isEdit = request.param('isEdit');
+    var id = request.param('id');
 
-        db.collection('Vagas', function (err, collection) {
-            collection.insert({
-                nome: vagaNome,
-                salario: vagaSalario,
-                quantVagasMax: vagaMax,
-                diasTrab: vagaDiasTrab,
-                hrTrab: vagaHrTrab,
-                local: vagaLocal,
-                end: vagaEnd,
-                conheExtra: vagaConheExtra,
-                datInsc: vagaDatIns,
-                datUltAlt: vagaDatUltAlt
-            })
-            return response.sendStatus(200);
-        });
+    console.log('isEdit = ' + isEdit);
+    console.log('id = ' + id);
+    MongoClient.connect(url, function (err, db) {
+        if (isEdit == true || isEdit == "true") {
+            var query = {"_id": new ObjectID(id)};
+            var newVal = {
+                $set: {
+                    salario: vagaSalario,
+                    quantVagasMax: vagaMax,
+                    diasTrab: vagaDiasTrab,
+                    hrTrab: vagaHrTrab,
+                    local: vagaLocal,
+                    end: vagaEnd,
+                    conheExtra: vagaConheExtra,
+                    datInsc: vagaDatIns,
+                    datUltAlt: vagaDatUltAlt
+                }
+            };
+            db.collection('Vagas', function (err, collection) {
+                collection.updateOne(query, newVal, function (err, res) {
+                    if (err) throw err;
+                    console.log("1 document updated");
+                    return response.sendStatus(200);
+                })
+            });
+        } else {
+            db.collection('Vagas', function (err, collection) {
+                collection.insert({
+                    nome: vagaNome,
+                    salario: vagaSalario,
+                    quantVagasMax: vagaMax,
+                    diasTrab: vagaDiasTrab,
+                    hrTrab: vagaHrTrab,
+                    local: vagaLocal,
+                    end: vagaEnd,
+                    conheExtra: vagaConheExtra,
+                    datInsc: vagaDatIns,
+                    datUltAlt: vagaDatUltAlt
+                });
+                return response.sendStatus(200);
+            });
+        }
+    });
+});
+
+app.delete('/api/vagas/:_id', function (request, response) {
+    var ObjectId = require('mongodb').ObjectId;
+    var id = request.params._id;
+    var o_id = new ObjectId(id);
+    MongoClient.connect(url, function (err, db) {
+        if (err) {
+            console.log('Não foi possível se conectar com o servidor MongoDB. Error:', err)
+        }
+        else {
+            //feita a conexão
+            console.log('Conexão com o banco de dados estabelecida com sucesso')
+
+            // Obtem a coleção de documentos
+            var collection = db.collection('Vagas')
+
+            //usando o comando update para atualizar dados
+            collection.deleteOne({_id: o_id}, function (err, numUpdated) {
+                if (err) {
+                    console.log(err);
+                } else if (numUpdated) {
+                    console.log('Documento deletado com sucesso.', numUpdated)
+                    return response.sendStatus(200);
+                } else {
+                    console.log('Nenhum documento encontrado!')
+                }
+                //Fecha a conexão
+                db.close();
+            });
+        }
     });
 });
 
@@ -238,13 +321,22 @@ app.get('/api/vagas', function (request, response, next) {
     next();
 });
 
-redirectAdmin = function(req, res, next) {
+redirectAdmin = function (req, res, next) {
     res.sendFile(__dirname + '/frontend/templates/admin/admin.html');
     next();
 };
 
 app.get('/admin', redirectAdmin, function (req, res, next) {
     console.log('GET ADMIN');
+});
+
+redirectUser = function (req, res, next) {
+    res.sendFile(__dirname + '/frontend/templates/main/user.html');
+    next();
+};
+
+app.get('/user', redirectUser, function (req, res, next) {
+    console.log('GET USER');
 });
 
 encrypt = function (string) {

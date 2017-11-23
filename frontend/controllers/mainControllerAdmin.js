@@ -7,7 +7,7 @@ angular.module('visu').controller('mainController', ['$scope', '$http', '$locati
         $scope.dia = data.getDate();
         $scope.ano = data.getUTCFullYear();
 
-        switch(data.getUTCMonth()) {
+        switch (data.getUTCMonth()) {
             case 0:
                 $scope.mes = 'Janeiro';
                 break;
@@ -64,10 +64,11 @@ angular.module('visu').controller('mainController', ['$scope', '$http', '$locati
         $scope.getVaga = function (vagaId) {
             var id = vagaId;
             console.log('GET VAGA' + id);
-            $http.get('/api/vagas/'+id).then(function (response) {
+            $http.get('/api/vagas/' + id).then(function (response) {
                 $scope.vaga = response.data;
-                if (!$scope.vaga[0].conheExtra || $scope.vaga.conheExtra == undefined) {
-                    $scope.vaga[0].conheExtra = 'N/A';
+                if (!$scope.vaga[0].conheExtra || $scope.vaga[0].conheExtra == undefined
+                    || $scope.vaga[0].conheExtra == "undefined" ) {
+                    $scope.vaga[0].conheExtra = 'Não especificado';
                 }
             });
         };
@@ -76,6 +77,14 @@ angular.module('visu').controller('mainController', ['$scope', '$http', '$locati
             var id = vagaId;
             window.location.href = "http://localhost:8000/admin/cadastrar-vagas:" + id;
         };
+
+        $scope.removeVaga = function (vagaId) {
+            var id = vagaId;
+            $http.delete('/api/vagas/' + id).then(function (response) {
+                alert("Vaga deletada com sucesso!");
+                window.location.href = 'http://localhost:8000/admin/visualizar-vagas';
+            });
+        }
     }]);
 
 angular.module('cada').controller('mainController', ['$scope', '$http', '$location', '$routeParams',
@@ -87,7 +96,7 @@ angular.module('cada').controller('mainController', ['$scope', '$http', '$locati
         $scope.dia = data.getDate();
         $scope.ano = data.getUTCFullYear();
 
-        switch(data.getUTCMonth()) {
+        switch (data.getUTCMonth()) {
             case 0:
                 $scope.mes = 'Janeiro';
                 break;
@@ -127,30 +136,41 @@ angular.module('cada').controller('mainController', ['$scope', '$http', '$locati
         }
 
         $scope.loadVaga = function () {
-            var path = window.location.href.split("cadastrar-vagas:");
-            if (path[1] && path[1] != 'undefined') {
-                $http.get('/api/vagas/'+path[1]).then(function (response) {
+            $scope.path = window.location.href.split("cadastrar-vagas:");
+            if ($scope.path[1] && $scope.path[1] != 'undefined') {
+                $http.get('/api/vagas/' + $scope.path[1]).then(function (response) {
                     if (!response.data[0].conheExtra || response.data[0].conheExtra == 'undefined'
                         || response.data[0].conheExtra == undefined) {
                         response.data[0].conheExtra = '';
                     }
                     $scope.vaga = response.data[0];
+                    $scope.isEdit = true;
+                    $scope.title = "Editar Vaga";
+                    $scope.buttonTxt = "Atualizar";
                 });
             } else {
                 console.log("Sem parâmetro");
+                $scope.isEdit = false;
+                $scope.title = "Cadastrar Vaga";
+                $scope.buttonTxt = "Cadastrar";
             }
         };
 
-        $scope.addVaga = function(){
+        $scope.addVaga = function () {
             $http.post('/api/vagas?nome=' + $scope.vaga.nome + '&salario=' + $scope.vaga.salario +
                 '&quantVagasMax=' + $scope.vaga.quantVagasMax + '&diasTrab=' + $scope.vaga.diasTrab +
-                '&hrTrab=' + $scope.vaga.hrTrab + '&local=' +$scope.vaga.local + '&end=' + $scope.vaga.end +
-                '&conheExtra=' + $scope.vaga.conheExtra + '&datInsc=' + $scope.vaga.datInsc).then(function(response) {
-                alert("Vaga cadastrada com sucesso!");
-                window.location.href = "http://localhost:8000/admin";
-            }, function (response) {
-                return alert("Ocorreu algum erro!");
-            });
+                '&hrTrab=' + $scope.vaga.hrTrab + '&local=' + $scope.vaga.local + '&end=' + $scope.vaga.end +
+                '&conheExtra=' + $scope.vaga.conheExtra + '&datInsc=' + $scope.vaga.datInsc +
+                '&isEdit=' + $scope.isEdit + '&id=' + $scope.path[1]).then(function (response) {
+                    if ($scope.isEdit == true || $scope.isEdit == "true") {
+                        alert("Vaga atualizada com sucesso!");
+                    } else {
+                        alert("Vaga cadastrada com sucesso!");
+                    }
+                    window.location.href = "http://localhost:8000/admin";
+                }, function (response) {
+                    return alert("Ocorreu algum erro!");
+                });
         };
 
         $scope.sair = function () {
@@ -161,6 +181,6 @@ angular.module('cada').controller('mainController', ['$scope', '$http', '$locati
                 return alert('Ocorreu um erro');
             });
         };
-}]);
+    }]);
 
 

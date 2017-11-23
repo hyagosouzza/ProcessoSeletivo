@@ -25,7 +25,9 @@
                 <h1 id="ps">Processo Seletivo</h1>
             </div>
             <div class="col-md-6 text-right">
-                <a ng-controller="mainController"><button  id="sair" type="submit" class="btn" ng-click="sair()">Sair</button></a>
+                <a ng-controller="mainController">
+                    <button id="sair" type="submit" class="btn" ng-click="sair()">Sair</button>
+                </a>
             </div>
         </div>
         <div class="row">
@@ -43,26 +45,30 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9" id="vaga-titulo">
-            Cadastrar Vaga
+            {{title}}
         </div>
         <div class="col-md-3">
             <a id="voltar" class="btn" href="http://localhost:8000/admin">Voltar</a>
         </div>
     </div>
     <hr id="linha">
-    <div  class="container">
+    <div class="container">
 
         <form name="addVagaForm" ng-submit="addVaga()" ng-init="loadVaga()">
 
-            <input type="text" class="form-control" ng-model="vaga.nome" placeholder="Nome da Vaga" ng-required="true">
+            <input type="text" class="form-control" ng-model="vaga.nome" placeholder="Nome da Vaga"
+                   ng-required="true" ng-readonly="isEdit">
             </br>
             <input type="text" class="form-control" ng-model="vaga.salario" placeholder="Salário" ng-required="true">
             </br>
-            <input type="text" class="form-control" ng-model="vaga.quantVagasMax" placeholder="Quantidade de Vagas" ng-required="true">
+            <input type="text" class="form-control" ng-model="vaga.quantVagasMax" placeholder="Quantidade de Vagas"
+                   ng-required="true">
             </br>
-            <input type="text" class="form-control" ng-model="vaga.diasTrab" placeholder="Dias de Trabalho" ng-required="true">
+            <input type="text" class="form-control" ng-model="vaga.diasTrab" placeholder="Dias de Trabalho"
+                   ng-required="true">
             </br>
-            <input type="text" class="form-control" ng-model="vaga.hrTrab" placeholder="Horas de Trabalho" ng-required="true">
+            <input type="text" class="form-control" ng-model="vaga.hrTrab" placeholder="Horas de Trabalho"
+                   ng-required="true">
             </br>
             <input type="text" class="form-control" ng-model="vaga.local" placeholder="Empresa" ng-required="true">
             </br>
@@ -70,14 +76,16 @@
             </br>
             <input type="text" class="form-control" ng-model="vaga.conheExtra" placeholder="Conhecimento Extra">
             </br>
-            <input type="text" class="form-control" ng-model="vaga.datInsc" placeholder="Data Final da Inscrição" ng-required="true">
+            <input type="text" class="form-control" ng-model="vaga.datInsc" placeholder="Data Final da Inscrição"
+                   ng-required="true">
             </br>
             </br>
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4"></div>
                 <div class="col-md-4 text-right">
-                    <button type="submit" id="entrar" class="btn" ng-disabled="addVagaForm.$invalid">Cadastrar</button>
+                    <button type="submit" id="entrar" class="btn" ng-disabled="addVagaForm.$invalid">
+                        {{buttonTxt}}</button>
                 </div>
             </div>
             </br>

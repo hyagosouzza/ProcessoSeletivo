@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Processo Seletivo</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/templates/main/index.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Cairo|Coustard|Shadows+Into+Light" rel="stylesheet">
+</head>
+
+<body>
+    <div class="b-superior">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 id="ps">Processo Seletivo</h1>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a>
+                        <form method="get" action="/logout">
+                            <button id="sair" type="submit" class="btn" name="tst">Sair</button>
+                        </form>
+                    </a>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 id="textos"></h3>
+                </div>
+                <script>
+                    var date = new Date();
+                    var mes;
+                    switch (date.getUTCMonth()) {
+                        case 0:
+                            mes = 'Janeiro';
+                            break;
+                        case 1:
+                            mes = 'Fevereiro';
+                            break;
+                        case 2:
+                            mes = 'Março';
+                            break;
+                        case 3:
+                            mes = 'Abril';
+                            break;
+                        case 4:
+                            mes = 'Maio';
+                            break;
+                        case 5:
+                            mes = 'Junho';
+                            break;
+                        case 6:
+                            mes = 'Julho';
+                            break;
+                        case 7:
+                            mes = 'Agosto';
+                            break;
+                        case 8:
+                            mes = 'Setembro';
+                            break;
+                        case 9:
+                            mes = 'Outubro';
+                            break;
+                        case 10:
+                            mes = 'Novembro';
+                            break;
+                        case 11:
+                            mes = 'Dezembro';
+                            break;
+                    }
+                    var dateString = "Hoje, " + date.getDate() + " de " + mes + " de " + date.getUTCFullYear();
+                    document.getElementById("textos").innerHTML = dateString;
+                </script>
+                <div class="col-md-4"></div>
+                <div class="col-md-4 row">
+                    <p id="adm-nome">Usuário do Sistema</p>
+                    <img id="imge3" src="https://icon-icons.com/icons2/602/PNG/32/Add_User_icon-icons.com_55971.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="row">
+        <div id="caixas" class="container col-md-4 text-center">
+            <div>
+                <h3 class="text-left" id="login">Opções do Usuário</h3>
+                <img class="text-left" id="imge" src="https://icon-icons.com/icons2/1303/PNG/32/checkform_85890.png" />
+                <a href="" class="btn" id="op-adm">Candidatar à vagas</a>
+            </div>
+            <div>
+                <img id="imge" class="text-left" src="https://icon-icons.com/icons2/510/PNG/32/android-search_icon-icons.com_50501.png" />
+                <a href="" class="btn" id="op-adm">Buscar minhas vagas</a>
+            </div>
+        </div>
+    </p>
+</body>
+
+</html>
